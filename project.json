@@ -1,0 +1,24 @@
+{
+  "overview": "BrainByte is a modern, responsive quiz web app with a dark theme. Players log in with a username, choose from 15 themed quiz categories across Tech, Fun, and Smart themes, set difficulty and question count, then compete on a local leaderboard.",
+  "features": [
+    "Login with username stored in localStorage",
+    "15 quiz themes across Tech, Fun, and Smart categories",
+    "Adjustable difficulty levels and question count slider",
+    "Circular countdown timer with color progression",
+    "Score, percentage, and performance rating on results screen",
+    "Local top-10 leaderboard with time tracking",
+    "Smooth page transitions and hover animations",
+    "Fully responsive mobile and desktop layout"
+  ],
+  "category": "education-games",
+  "tags": [
+    "quiz",
+    "trivia",
+    "leaderboard",
+    "dark-theme",
+    "education",
+    "game",
+    "responsive"
+  ],
+  "last_updated": "2026-05-20T07:57:20.488Z"
+}

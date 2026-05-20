@@ -1,0 +1,129 @@
+// Version: 1.0.0
+type Bag__655193882 =
+  {id : Nat; listId : Nat; name : Text; weightLimit : ?Nat};
+type CachedTripWeather__13489565 =
+  {
+    cachedAt : Int;
+    days : [CachedWeatherDay__461902189];
+    hasHistoricalDays : Bool;
+    tripId : Nat
+  };
+type CachedWeatherDay__461902189 =
+  {
+    date : Text;
+    isHistorical : Bool;
+    precipitationProbability : ?Float;
+    precipitationSum : ?Float;
+    tempMax : Float;
+    tempMin : Float;
+    weatherCode : Nat
+  };
+type CustomActivity__536341013 =
+  {id : Nat; name : Text; suggestedItems : [SuggestedItem__441324795]};
+type CustomCategory__841924613 = {id : Nat; name : Text};
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type PackingItem__220666215 =
+  {
+    bagId : ?Nat;
+    category : Text;
+    id : Nat;
+    listId : Nat;
+    name : Text;
+    packed : Bool;
+    quantity : Nat;
+    weight : ?Nat
+  };
+type SuggestedItem__441324795 =
+  {category : Text; name : Text; quantity : Nat};
+type Template__465809853 =
+  {
+    activities : [Text];
+    createdAt : Int;
+    description : Text;
+    id : Nat;
+    name : Text
+  };
+type Trip__14129367 =
+  {
+    activities : [Text];
+    createdAt : Int;
+    destination : Text;
+    endDate : Int;
+    id : Nat;
+    latitude : Float;
+    longitude : Float;
+    startDate : Int
+  };
+type UserProfile__491224006 = {name : Text};
+actor {
+  stable MAX_ACTIVITIES_PER_USER : Nat;
+  stable MAX_BAGS_PER_TRIP : Nat;
+  stable MAX_CATEGORIES_PER_USER : Nat;
+  stable MAX_ITEMS_PER_ACTIVITY : Nat;
+  stable MAX_ITEMS_PER_TRIP : Nat;
+  stable MAX_TEMPLATES_PER_USER : Nat;
+  stable MAX_TRIPS_PER_USER : Nat;
+  stable var nextId : Nat;
+  stable var tripWeatherCache :
+    {
+      var root :
+        Node__46230540<Principal,
+                        Map__605269027<Nat, CachedTripWeather__13489565>>;
+      var size : Nat__490723111
+    };
+  stable var userActivities :
+    {
+      var root :
+        Node__46230540<Principal,
+                        Map__605269027<Nat, CustomActivity__536341013>>;
+      var size : Nat__490723111
+    };
+  stable var userBags :
+    {
+      var root :
+        Node__46230540<Principal, Map__605269027<Nat, Bag__655193882>>;
+      var size : Nat__490723111
+    };
+  stable var userCategories :
+    {
+      var root :
+        Node__46230540<Principal,
+                        Map__605269027<Nat, CustomCategory__841924613>>;
+      var size : Nat__490723111
+    };
+  stable var userItems :
+    {
+      var root :
+        Node__46230540<Principal, Map__605269027<Nat, PackingItem__220666215>>;
+      var size : Nat__490723111
+    };
+  stable var userProfiles :
+    {
+      var root : Node__46230540<Principal, UserProfile__491224006>;
+      var size : Nat__490723111
+    };
+  stable var userTemplates :
+    {
+      var root :
+        Node__46230540<Principal, Map__605269027<Nat, Template__465809853>>;
+      var size : Nat__490723111
+    };
+  stable var userTrips :
+    {
+      var root :
+        Node__46230540<Principal, Map__605269027<Nat, Trip__14129367>>;
+      var size : Nat__490723111
+    }
+};

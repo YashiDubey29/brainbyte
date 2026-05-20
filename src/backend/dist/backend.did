@@ -1,0 +1,136 @@
+type UserProfile = record {name: text;};
+type Trip = 
+ record {
+   activities: vec text;
+   createdAt: int;
+   destination: text;
+   endDate: int;
+   id: nat;
+   latitude: float64;
+   longitude: float64;
+   startDate: int;
+ };
+type TemplateView = 
+ record {
+   activities: vec text;
+   bagCount: nat;
+   createdAt: int;
+   description: text;
+   id: nat;
+   itemCount: nat;
+   name: text;
+ };
+type SuggestedItem = 
+ record {
+   category: text;
+   name: text;
+   quantity: nat;
+ };
+type PackingItem = 
+ record {
+   bagId: opt nat;
+   category: text;
+   id: nat;
+   listId: nat;
+   name: text;
+   packed: bool;
+   quantity: nat;
+   weight: opt nat;
+ };
+type CustomCategory = 
+ record {
+   id: nat;
+   name: text;
+ };
+type CustomActivity = 
+ record {
+   id: nat;
+   name: text;
+   suggestedItems: vec SuggestedItem;
+ };
+type CachedWeatherDay = 
+ record {
+   date: text;
+   isHistorical: bool;
+   precipitationProbability: opt float64;
+   precipitationSum: opt float64;
+   tempMax: float64;
+   tempMin: float64;
+   weatherCode: nat;
+ };
+type CachedTripWeather = 
+ record {
+   cachedAt: int;
+   days: vec CachedWeatherDay;
+   hasHistoricalDays: bool;
+   tripId: nat;
+ };
+type BagFilter = 
+ variant {
+   all;
+   specific: nat;
+   unassigned;
+ };
+type Bag = 
+ record {
+   id: nat;
+   listId: nat;
+   name: text;
+   weightLimit: opt nat;
+ };
+service : {
+  addItem: (listId: nat, name: text, category: text, quantity: nat, weight:
+   opt nat, bagId: opt nat) -> (nat);
+  applyTemplate: (tripId: nat, templateId: nat) -> ();
+  assignToBag: (itemId: nat, bagId: opt nat) -> ();
+  bulkAddItems: (listId: nat, newItems:
+   vec record {
+         category: text;
+         name: text;
+         quantity: nat;
+         weight: opt nat;
+       }) -> (vec nat);
+  clearTripWeather: (tripId: nat) -> ();
+  createBag: (listId: nat, name: text, weightLimit: opt nat) -> (nat);
+  createCustomActivity: (name: text, suggestedItems: vec SuggestedItem) ->
+   (nat);
+  createCustomCategory: (name: text) -> (nat);
+  createTemplate: (name: text, description: text, activities: vec text) ->
+   (nat);
+  createTrip: (destination: text, latitude: float64, longitude: float64,
+   startDate: int, endDate: int, activities: vec text) -> (nat);
+  deleteBag: (id: nat) -> ();
+  deleteCustomActivity: (id: nat) -> ();
+  deleteCustomCategory: (id: nat) -> ();
+  deleteItem: (id: nat) -> ();
+  deleteTemplate: (id: nat) -> ();
+  deleteTrip: (id: nat) -> ();
+  getActivitySuggestedItems: (activityIds: vec nat) ->
+   (vec SuggestedItem) query;
+  getBags: (listId: nat) -> (vec Bag) query;
+  getCustomActivities: () -> (vec CustomActivity) query;
+  getCustomCategories: () -> (vec CustomCategory) query;
+  getItems: (listId: nat, packedFilter: opt bool, bagFilter: BagFilter) ->
+   (vec PackingItem) query;
+  getProfile: () -> (opt UserProfile) query;
+  getTemplateById: (id: nat) -> (opt TemplateView) query;
+  getTemplates: () -> (vec TemplateView) query;
+  getTripById: (id: nat) -> (opt Trip) query;
+  getTripWeather: (tripId: nat) -> (opt CachedTripWeather) query;
+  getTrips: () -> (vec Trip) query;
+  saveAsTemplate: (tripId: nat, name: text, description: text) -> (nat);
+  setProfile: (name: text) -> ();
+  setTripWeather: (tripId: nat, days: vec CachedWeatherDay,
+   hasHistoricalDays: bool) -> ();
+  togglePacked: (id: nat) -> (bool);
+  updateBag: (id: nat, name: text, weightLimit: opt nat) -> ();
+  updateCustomActivity: (id: nat, name: text, suggestedItems:
+   vec SuggestedItem) -> ();
+  updateCustomCategory: (id: nat, name: text) -> ();
+  updateItem: (id: nat, name: text, category: text, quantity: nat, weight:
+   opt nat, bagId: opt nat) -> ();
+  updateTemplate: (id: nat, name: text, description: text, activities:
+   vec text) -> ();
+  updateTrip: (id: nat, destination: text, latitude: float64, longitude:
+   float64, startDate: int, endDate: int, activities: vec text) -> ();
+}
